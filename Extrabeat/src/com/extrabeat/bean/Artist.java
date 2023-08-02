@@ -1,7 +1,9 @@
 package com.extrabeat.bean;
 
-public class Artist {
-	private Integer artistId;
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Artist implements Serializable{
 	private String artistName;
 	private String artistGenre;
 	private String popularSongs;
@@ -9,20 +11,10 @@ public class Artist {
 	public Artist() {
 	}
 
-	public Artist(Integer artistId, String artistName, String popularSongs, String artistGenre) {
-		this.artistId = artistId;
+	public Artist(String artistName, String artistGenre, String popularSongs) {
 		this.artistName = artistName;
 		this.artistGenre = artistGenre;
 		this.popularSongs = popularSongs;
-
-	}
-
-	public Integer getArtistId() {
-		return artistId;
-	}
-
-	public void setArtistId(Integer artistId) {
-		this.artistId = artistId;
 	}
 
 	public String getArtistName() {
@@ -50,9 +42,27 @@ public class Artist {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(artistGenre, artistName, popularSongs);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Artist other = (Artist) obj;
+		return Objects.equals(artistGenre, other.artistGenre) && Objects.equals(artistName, other.artistName)
+				&& Objects.equals(popularSongs, other.popularSongs);
+	}
+
+	@Override
 	public String toString() {
-		return "Artist [artistId=" + artistId + ", artistName=" + artistName + ", artistGenre=" + artistGenre
-				+ ", popularSongs=" + popularSongs + "]";
+		return "Artist [artistName=" + artistName + ", artistGenre=" + artistGenre + ", popularSongs=" + popularSongs
+				+ "]";
 	}
 
 }

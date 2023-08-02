@@ -1,49 +1,24 @@
 package com.extrabeat.bean;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class User {
-	private Integer userId;
+public class User implements Serializable{
 	private String username;
 	private String email;
 	private String password;
-	private Map<String, Integer> preferences = new HashMap<>();
+	private String preferences;
+	private Role role;
 
 	public User() {
 	}
 
-	public User(Integer userId, String username, String email, String password) {
-		this.userId = userId;
+	public User(String username, String email, String password, String preferences, Role role) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
-	}
-
-	public void setUserPreference(String genre, int rating) {
-		if (genre == null) {
-			throw new RuntimeException("Genre cannot be null.");
-		}
-
-		if (rating >= 1 || rating <= 5) {
-			throw new RuntimeException("Rating must be between 1 and 5");
-		}
-		preferences.put(genre, rating);
-	}
-
-	public int getUserPreference(String genre) {
-		if (genre == null) {
-			throw new RuntimeException("Genre can't be null");
-		}
-		return preferences.getOrDefault(genre, 0);
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+		this.preferences = preferences;
+		this.role = role;
 	}
 
 	public String getUsername() {
@@ -70,10 +45,48 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
-				+ "]";
+	public String getPreferences() {
+		return preferences;
 	}
 
+	public void setPreferences(String preferences) {
+		this.preferences = preferences;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, password, preferences, role, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
+				&& Objects.equals(preferences, other.preferences) && role == other.role
+				&& Objects.equals(username, other.username);
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", email=" + email + ", password=" + password + ", preferences="
+				+ preferences + ", role=" + role + "]";
+	}
+
+	
+
+	
 }
