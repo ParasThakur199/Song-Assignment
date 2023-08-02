@@ -1,31 +1,25 @@
 package com.extrabeat.bean;
 
-public class Song {
-	private Integer songId;
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Song  implements Serializable{
 	private String songTitle;
 	private String artist;
 	private Integer duration;
 	private String genre;
-	private Integer rating;
+	private double rating;
 
 	public Song() {
 	}
 
-	public Song(Integer songId, String songTitle, String artist, Integer duration, String genre, Integer rating) {
-		this.songId = songId;
+	public Song(String songTitle, String artist, Integer duration, String genre, double rating) {
+		super();
 		this.songTitle = songTitle;
 		this.artist = artist;
 		this.duration = duration;
 		this.genre = genre;
 		this.rating = rating;
-	}
-
-	public Integer getSongId() {
-		return songId;
-	}
-
-	public void setSongId(Integer songId) {
-		this.songId = songId;
 	}
 
 	public String getSongTitle() {
@@ -60,18 +54,37 @@ public class Song {
 		this.genre = genre;
 	}
 
-	public Integer getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
 	@Override
-	public String toString() {
-		return "Song [songId=" + songId + ", songTitle=" + songTitle + ", artist=" + artist + ", duration=" + duration
-				+ ", genre=" + genre + ", rating=" + rating + "]";
+	public int hashCode() {
+		return Objects.hash(artist, duration, genre, rating, songTitle);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Song other = (Song) obj;
+		return Objects.equals(artist, other.artist) && Objects.equals(duration, other.duration)
+				&& Objects.equals(genre, other.genre)
+				&& Double.doubleToLongBits(rating) == Double.doubleToLongBits(other.rating)
+				&& Objects.equals(songTitle, other.songTitle);
+	}
+
+	@Override
+	public String toString() {
+		return "Song [songTitle=" + songTitle + ", artist=" + artist + ", duration=" + duration + ", genre=" + genre
+				+ ", rating=" + rating + "]";
+	}
 }
